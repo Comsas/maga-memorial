@@ -2,7 +2,7 @@
 
   <div>
         <b-navbar toggleable="lg" type="dark" variant="info" fixed="top">
-          <b-navbar-brand  href="/">Home</b-navbar-brand>
+          <b-navbar-brand  href="/Maga-memory">Home</b-navbar-brand>
           <b-navbar-brand href="#about">Biography</b-navbar-brand>
           <b-navbar-brand href="#experience">Experience</b-navbar-brand>
           <b-navbar-brand href="#skills">Skills</b-navbar-brand>
