@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=_w5kuquod1qzfx*e1!%p5!mhd4(7r&#^=w+&%7gf71qg)a10*'
+SECRET_KEY = "'django-insecure-=_w5kuquod1qzfx*e1!%p5!mhd4(7r&#^=w+&%7gf71qg)a10*'"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "core",
+    "rest_framework",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -57,6 +61,7 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': True,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -118,8 +123,72 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+#DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+## configure wasabi s3
+#DEFAULT_FILE_STORAGE = "core.storage_backends.MediaStorage"
+
+#AWS_ACCESS_KEY_ID = "6EU1X32KTMOL06A71NWT"
+#AWS_SECRET_ACCESS_KEY = "vAZK1luhoyIwUV8NlcTBevQr9TCqXupVp0zZdVtH"
+#AWS_STORAGE_BUCKET_NAME = "maga"
+#AWS_S3_ENDPOINT_URL = "https://s3.eu-central-1.wasabisys.com"
+#AWS_QUERYSTRING_EXPIRE = 3600 * 24 * 90
+#AWS_QUERYSTRING_AUTH = False
+
+# LOGGING
+LOGS_DIR:Path = BASE_DIR / "logs"
+try:
+    LOGS_DIR.mkdir()
+except:
+    pass
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {
+            "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s - %(pathname)s",
+            "datefmt": "%d/%b/%Y %H:%M:%S",
+        },
+    },
+    "handlers": {
+        "default": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": str(LOGS_DIR / "default.log"),
+            "formatter": "standard",
+        },
+        "handler_error": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": str(LOGS_DIR / "error.log"),
+            "formatter": "standard",
+        },
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "standard",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["handler_error"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+        "": {
+            "handlers": ["default", "console"],
+            "level": "DEBUG",
+            "propagate": True,
+        }
+    },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    "PAGE_SIZE": 100,
+}
