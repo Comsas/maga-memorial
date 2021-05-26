@@ -125,21 +125,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "static"
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
-#DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-## configure wasabi s3
-#DEFAULT_FILE_STORAGE = "core.storage_backends.MediaStorage"
-
-#AWS_ACCESS_KEY_ID = "6EU1X32KTMOL06A71NWT"
-#AWS_SECRET_ACCESS_KEY = "vAZK1luhoyIwUV8NlcTBevQr9TCqXupVp0zZdVtH"
-#AWS_STORAGE_BUCKET_NAME = "maga"
-#AWS_S3_ENDPOINT_URL = "https://s3.eu-central-1.wasabisys.com"
-#AWS_QUERYSTRING_EXPIRE = 3600 * 24 * 90
-#AWS_QUERYSTRING_AUTH = False
-
 # LOGGING
 LOGS_DIR:Path = BASE_DIR / "logs"
 try:
